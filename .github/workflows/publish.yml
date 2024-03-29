@@ -1,0 +1,68 @@
+name: Publish
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+    
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Get Previous tag
+      id: previous_tag
+      uses: WyriHaximus/github-action-get-previous-tag@v1
+      with:
+        fallback: 1.0.133
+
+    - name: Parse SemVer
+      id: version
+      uses: peter-murray/semver-action@v1
+      with:
+        version: ${{ steps.previous_tag.outputs.tag }}
+
+    - name: Print next patch
+      run: echo ${{ steps.version.outputs.nextPatch }}
+
+    - name: Set project versions
+      id: update
+      uses: vers-one/dotnet-project-version-updater@v1.5
+      with:
+        file: |
+          "**/LetsEncrypt.Azure.Core.V2.csproj"
+        version: ${{ steps.version.outputs.nextPatch }}
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '2.x'
+
+    - name: build.cmd
+      run: dotnet pack .\src\LetsEncrypt.Azure.Core.V2\LetsEncrypt.Azure.Core.V2.csproj --verbosity Detailed
+
+    - name: Run tests
+      continue-on-error: true
+      uses: microsoft/vstest-action@v1.0.0
+      with:
+        testAssembly: Letsencrypt.Azure.Core.Test.dll
+        searchFolder: .\src\LetsEncrypt.Azure.Core.Test\bin\**\
+        runInParallel: true
+
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/heads/master')
+      with:
+        tag_name: ${{ steps.version.outputs.nextPatch }}
+        files: '**\letsencrypt*.nupkg'
+
+    - name: Publish
+      if: startsWith(github.ref, 'refs/heads/master')
+      run: nuget push **\letsencrypt.azure.core*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_API_KEY}}
