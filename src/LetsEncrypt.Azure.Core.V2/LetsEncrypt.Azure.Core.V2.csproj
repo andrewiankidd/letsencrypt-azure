@@ -2,7 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>Library for easy retrieval of Let's Encrypt wildcard certificates using version 2 api. Support easy install to Azure Web Apps and storage in Azure Key Vault or Blob Storage.</Description>   
+    <PackageId>LetsEncrypt.Azure.Core.V2.untested</PackageId>
+    <Title>LetsEncrypt.Azure.Core.V2.untested</Title>
+    <Version>1.0.132</Version>
+    <Authors>SJKP</Authors>
+    <PackageLicenseUrl>http://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/sjkp/letsencrypt-azure</PackageProjectUrl>
+    <IconUrl>https://raw.githubusercontent.com/sjkp/letsencrypt-siteextension/master/icon.png</IconUrl>
+    <Description>Library for easy retrieval of Let's Encrypt wildcard certificates using version 2 api. Support easy install to Azure Web Apps and storage in Azure Key Vault or Blob Storage.</Description>
+    <PackageTags>AzureSiteExtension letsencrypt siteextension ssl https</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
