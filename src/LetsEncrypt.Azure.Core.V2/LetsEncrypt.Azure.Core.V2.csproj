@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>LetsEncrypt.Azure.Core.V2.untested</PackageId>
-    <Title>LetsEncrypt.Azure.Core.V2.untested</Title>
+    <PackageId>LetsEncrypt.Azure.Core.V2</PackageId>
+    <Title>LetsEncrypt.Azure.Core.V2</Title>
     <Version>1.0.132</Version>
     <Authors>SJKP</Authors>
     <PackageLicenseUrl>http://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
